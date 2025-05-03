@@ -308,7 +308,6 @@ const Chat = () => {
     try {
       setLoading(true);
       
-      // Validate token before creating chat
       const token = localStorage.getItem('authToken');
       if (!token) {
         setError("You must be logged in to create a chat");
@@ -316,7 +315,6 @@ const Chat = () => {
         return;
       }
 
-      // Get role from token
       let senderRole;
       try {
         const decodedToken = jwtDecode(token);
@@ -361,7 +359,6 @@ const Chat = () => {
     try {
       const token = localStorage.getItem('authToken');
       
-      // Find the chat to get the user ID
       const chat = chats.find(c => c._id === chatId);
       
       if (!chat || !chat.user || !chat.user._id) {
@@ -373,26 +370,21 @@ const Chat = () => {
       
       console.log(`Accepting service ${serviceId} for user ${userId}`);
       
-      // 1. Update service status
       await axios.put(
         `http://localhost:4000/api/ser/${serviceId}`,
         { status: 'in progress' },
         { headers: { Authorization: `Bearer ${token}` } }
       );
   
-      // 2. Make request to user API with orderedServices
-      // Use the user ID from the chat object, not the currentUser state
       await axios.put(
         `http://localhost:4000/api/u/${userId}`,
         { orderedServices: serviceId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       
-      // 3. Trigger verification process
       setVerifiedServiceId(serviceId);
       setShouldVerify(true);
       
-      // 4. Refresh service status in chat list
       await fetchServiceStatus(serviceId);
     } catch (err) {
       console.error('Error in accepte function:', err);
@@ -400,13 +392,11 @@ const Chat = () => {
     }
   };
 
-  // Format timestamp (assuming messages have timestamps)
   const formatTime = (timestamp) => {
     if (!timestamp) return '';
     return new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
-  // Format date for service details
   const formatDate = (dateString) => {
     if (!dateString) return 'Date not available';
     try {
@@ -417,7 +407,6 @@ const Chat = () => {
     }
   };
 
-  // Check if the message is from the current user
   const isOwnMessage = (message) => {
     if (userRole === 'seller') {
       return message.sender === 'seller';
@@ -426,7 +415,6 @@ const Chat = () => {
     }
   };
 
-  // Get appropriate role label for chat context
   const getRoleLabel = (message) => {
     if (message.sender === 'system') return 'System';
     

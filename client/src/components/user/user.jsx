@@ -13,7 +13,7 @@ const User = () => {
     email: "",
     phone: "",
     services: [],
-    orderedServices: [], // Added to store ordered services
+    orderedServices: [], 
     createdAt: null,
     role: "", 
   });
@@ -30,12 +30,11 @@ const User = () => {
           email: decodedToken.email || '',
           phone: decodedToken.phone, 
           services: [], 
-          orderedServices: decodedToken.orderedServices || [], // Store orderedServices from token
+          orderedServices: decodedToken.orderedServices || [], 
           createdAt: new Date(), 
           role: decodedToken.role || '',
         });
 
-        // If user is not a seller, fetch their ordered services
         if (decodedToken.role !== "seller" && decodedToken.orderedServices?.length > 0) {
           fetchOrderedServices(decodedToken.orderedServices);
         }
@@ -50,7 +49,6 @@ const User = () => {
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   
-  // For service management (seller only)
   const [newService, setNewService] = useState({
     title: "",
     description: "",
@@ -60,14 +58,12 @@ const User = () => {
   });
   const [editingService, setEditingService] = useState(null);
 
-  // Fetch services when component mounts
   useEffect(() => {
     if (userData.role === "seller") {
       fetchServices();
     }
   }, [userData.role]);
 
-  // New function to fetch ordered services by their IDs
   const fetchOrderedServices = async (serviceIds) => {
     setLoading(true);
     try {
@@ -75,7 +71,7 @@ const User = () => {
       
       for (const serviceId of serviceIds) {
         const response = await axios.get(`http://localhost:4000/api/ser/${serviceId}`);
-        if (response.data) { // Changed condition to check response.data directly
+        if (response.data) {
           servicesDetails.push(response.data);
         }
       }
@@ -99,12 +95,10 @@ const User = () => {
     setLoading(true);
     try {
       const response = await axios.get('http://localhost:4000/api/ser/');
-      // Assuming the API returns an array of services
       console.log(response.data)
       if (response.data && Array.isArray(response.data)) {
         setUserData({...userData, services: response.data});
       } else if (response.data && response.data.services) {
-        // Alternative response format
         setUserData({...userData, services: response.data.services});
       }
     } catch (error) {
@@ -136,30 +130,24 @@ const User = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would normally make an API call to update the user data
     setUserData({...formData});
     setMessage({ type: 'success', text: 'Profile updated successfully!' });
     setEditing(false);
     
-    // Clear the message after 3 seconds
     setTimeout(() => {
       setMessage(null);
     }, 3000);
   };
 
-  // New function to update service status to "done"
   const handleMarkAsDone = async (serviceId) => {
     setLoading(true);
     try {
-      // 1. Update the status to "completed"
       await axios.put(`http://localhost:4000/api/ser/${serviceId}`, {
         status: "completed"
       });
   
-      // 2. Fetch the updated service data from the API
       const response = await axios.get(`http://localhost:4000/api/ser/${serviceId}`);
       
-      // 3. Update the UI with fresh data from the database
       const updatedServices = userData.services.map(service => 
         service._id === serviceId ? response.data : service
       );
@@ -180,7 +168,6 @@ const User = () => {
 
   const handleAddService = async (e) => {
     e.preventDefault();
-    // Validate form
     if (!newService.title || !newService.description || !newService.price) {
       setMessage({ type: 'danger', text: 'All fields are required!' });
       return;
@@ -189,9 +176,8 @@ const User = () => {
     
     setLoading(true);
     try {
-      // Prepare the service data according to API requirements
       const serviceData = {
-        seller: "67efe63d8ed99d8148d558e9", // This should come from your auth system
+        seller: "67efe63d8ed99d8148d558e9", 
         title: newService.title,
         description: newService.description,
         price: Number(newService.price),
@@ -199,17 +185,14 @@ const User = () => {
         image: newService.image
       };
 
-      // Make API call to add service
       const response = await axios.post('http://localhost:4000/api/ser/', serviceData);
       
-      // Update UI with the new service
       if (response.data && response.data.service) {
         setUserData({
           ...userData, 
           services: [...userData.services, response.data.service]
         });
         
-        // Reset form
         setNewService({
           title: "",
           description: "",
@@ -229,7 +212,6 @@ const User = () => {
     } finally {
       setLoading(false);
       
-      // Clear the message after 3 seconds
       setTimeout(() => {
         setMessage(null);
       }, 3000);
@@ -239,10 +221,8 @@ const User = () => {
   const handleDeleteService = async (serviceId) => {
     setLoading(true);
     try {
-      // Make API call to delete service
       await axios.delete(`http://localhost:4000/api/ser/${serviceId}`);
       
-      // Update UI by removing the deleted service
       const updatedServices = userData.services.filter(service => service._id !== serviceId);
       setUserData({...userData, services: updatedServices});
       
@@ -256,7 +236,6 @@ const User = () => {
     } finally {
       setLoading(false);
       
-      // Clear the message after 3 seconds
       setTimeout(() => {
         setMessage(null);
       }, 3000);
@@ -266,7 +245,7 @@ const User = () => {
   const startEditService = (service) => {
     setEditingService({
       ...service,
-      price: service.price.toString() // Convert to string for form input
+      price: service.price.toString() 
     });
   };
 
@@ -275,7 +254,6 @@ const User = () => {
     setLoading(true);
     
     try {
-      // Prepare the updated service data
       const updatedServiceData = {
         title: editingService.title,
         description: editingService.description,
@@ -284,13 +262,11 @@ const User = () => {
         image: editingService.image
       };
       
-      // Make API call to update service
       const response = await axios.put(
         `http://localhost:4000/api/ser/${editingService._id}`, 
         updatedServiceData
       );
       
-      // Update UI with the updated service
       if (response.data) {
         const updatedServices = userData.services.map(service => 
           service._id === editingService._id ? response.data.service || editingService : service
@@ -313,7 +289,6 @@ const User = () => {
     } finally {
       setLoading(false);
       
-      // Clear the message after 3 seconds
       setTimeout(() => {
         setMessage(null);
       }, 3000);
@@ -329,12 +304,10 @@ const User = () => {
     });
   };
 
-  // Render service section based on user role
   const renderServiceSection = () => {
     const isSeller = userData.role === "seller";
     
     if (isSeller) {
-      // SELLER VIEW
       return (
         <div>
           <h4 className="mb-3">Your Services</h4>
@@ -551,7 +524,7 @@ const User = () => {
                   )}
                 </div>
                 <div>
-                {service.status !== "completed" && (  // Changed from "done" to "completed"
+                {service.status !== "completed" && (  
       <Button 
         variant="success" 
         size="sm"

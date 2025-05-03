@@ -3,28 +3,29 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 const WhatServ = () => {
     return (
-        <Container className="py-5">
+        <Container className="py-5" id="services">
             <Row className="align-items-center">
                 <Col lg={6} className="order-lg-1 order-2 pe-lg-5 mb-5 mb-lg-0">
-                    <h2 className="mb-4 fw-bold">What We Serve</h2>
+                    <h2 className="mb-4 fw-bold">Services You Can Find</h2>
                     <p className="lead mb-4">
-                        We offer a comprehensive range of solutions tailored to meet your specific needs and exceed your expectations.
+                        HandCare connects you with skilled professionals offering a wide range of services to make your life easier.
                     </p>
                     <ul className="list-unstyled mb-4">
-                        <li className="mb-2">✓ Custom software development</li>
-                        <li className="mb-2">✓ Web application design</li>
-                        <li className="mb-2">✓ Mobile solutions</li>
-                        <li className="mb-2">✓ Cloud integration services</li>
-                        <li className="mb-2">✓ Digital transformation consulting</li>
+                        <li className="mb-2">✓ Home cleaning & organization</li>
+                        <li className="mb-2">✓ Handyman & repair services</li>
+                        <li className="mb-2">✓ Personal assistance & errands</li>
+                        <li className="mb-2">✓ Beauty & wellness at home</li>
+                        <li className="mb-2">✓ Tech support & device setup</li>
                     </ul>
                     <p>
-                        Our team of experts uses cutting-edge technologies and industry best practices to deliver solutions that drive growth and efficiency for your business.
+                        Every service provider on our platform is vetted and reviewed to ensure quality, reliability, and your complete satisfaction.
                     </p>
+                    <a href="/prod" className="btn btn-primary mt-2">Browse All Services</a>
                 </Col>
                 <Col lg={6} className="mb-4 mb-lg-0 order-lg-2 order-1 ps-lg-5">
                     <img 
                         src="https://prek4sa.com/wp-content/uploads/elementor/thumbs/img-fw-community-section-qbgnxzi2igwdzkaptrbfh08wy0u7reagk3lf498nio.jpg" 
-                        alt="Our Services" 
+                        alt="HandCare Services" 
                         className="img-fluid rounded shadow"
                     />
                 </Col>

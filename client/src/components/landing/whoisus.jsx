@@ -8,25 +8,25 @@ const WhoIsUs = () => {
                 <Col lg={6} className="mb-4 mb-lg-0">
                     <img 
                         src="https://www.idealurologyhospital.com/images/about-us-.jpg" 
-                        alt="Our Team" 
+                        alt="HandCare Team" 
                         className="img-fluid rounded shadow"
                     />
                 </Col>
                 <Col lg={6}>
-                    <h2 className="mb-4 fw-bold">Who Is Us</h2>
+                    <h2 className="mb-4 fw-bold">About HandCare</h2>
                     <p className="lead mb-4">
-                        We are a passionate team of professionals dedicated to excellence in everything we do.
-                        Founded in 2018, our company has grown from a small startup to an industry leader.
+                        HandCare is a marketplace platform that connects skilled service providers with clients seeking quality services.
                     </p>
                     <p className="mb-4">
-                        Our mission is to provide innovative solutions that transform how our clients operate.
-                        We believe in collaboration, integrity, and pushing the boundaries of what's possible.
+                        Our mission is to create opportunities for skilled individuals to offer their services while making it easy for clients to find reliable help for their needs.
                     </p>
                     <p>
-                        With team members across three continents, we bring diverse perspectives and expertise
-                        to solve complex challenges. Our commitment to quality and customer satisfaction sets
-                        us apart in the industry.
+                        Whether you're looking for services or wanting to offer your skills, HandCare provides a secure, user-friendly platform with transparent pricing, verified reviews, and hassle-free booking.
                     </p>
+                    <div className="d-flex gap-2 mt-4">
+                        <a href="#download" className="btn btn-primary">Download App</a>
+                        <a href="#learn-more" className="btn btn-outline-secondary">Learn More</a>
+                    </div>
                 </Col>
             </Row>
         </Container>
@@ -34,3 +34,5 @@ const WhoIsUs = () => {
 }
 
 export default WhoIsUs;
+
+
